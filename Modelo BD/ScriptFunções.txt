@@ -1,0 +1,60 @@
+--TABELA USUARIOS--
+--Adicionando uma Constraint Check diante da coluna tp_perfil
+alter table usuarios add constraint ck_tp_perfil check (tp_perfil = 0 or tp_perfil = 1);
+
+--FUNCTION
+create function f_mostrar_tipo_de_usuario(p_tipo int)
+returns text as
+$body$
+
+declare ds_resultado varchar(20);
+
+begin
+	case
+	when p_tipo = 0 then
+		ds_resultado = 'Administrador';
+	when p_tipo = 1 then
+		ds_resultado = 'Gestor';
+	end case;
+	return ds_resultado;
+end
+$body$
+language plpgsql;
+
+select f_mostrar_tipo_de_usuario(1);
+
+
+
+--TABELA CONTATOS--
+--Adicionando uma Constraint Check diante da coluna tp_contato
+alter table contatos add constraint ck_tp_contato check (tp_contato = any(array[0,1,2,3,4,5,6]));
+																				
+																				
+--FUNCTION
+create function f_mostrar_tipo_de_contato(p_tipo int)
+returns text as
+$body$
+																				
+declare ds_resultado varchar(25);
+
+begin
+	case
+		when p_tipo = 0 then
+			ds_resultado = 'Telefone';
+		when p_tipo = 1 then
+			ds_resultado = 'E-mail';
+		when p_tipo = 2 then
+			ds_resultado = 'Facebook';
+		when p_tipo = 3 then
+			ds_resultado = 'Skype';
+		when p_tipo = 4 then
+			ds_resultado = 'WhatsApp';
+		when p_tipo = 5 then
+			ds_resultado = 'Instagram';
+		when p_tipo = 6 then
+			ds_resultado = 'Twitter';
+	end case;
+	return ds_resultado;
+end
+$body$
+language plpgsql;

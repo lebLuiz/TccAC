@@ -1,0 +1,54 @@
+--create database parque_sao_jose;
+
+
+create table usuarios(
+	id_usuario serial primary key,
+	ds_nome_usuario varchar(255) not null,
+	ds_usuario varchar(50) not null unique,
+	ds_senha varchar(25) not null, 
+	tp_perfil int not null
+);
+
+create table empresas(
+	id_empresa serial primary key,
+	id_usuario int,
+	ds_nome_empresa varchar(255) not null,
+	ds_nome_fantasia varchar(255) not null,
+	ds_cnpj varchar(14) not null unique,
+	ds_categoria varchar(255) not null,
+	dt_fundacao date not null,
+	hr_aberto time,
+	hr_fechado time,
+	quant_funcionarios int,
+	ds_responsavel varchar(255) not null,
+	ds_rua varchar(255),
+	nr_rua int,
+	img_imagem bytea
+);
+
+create table produtos(
+	id_produto serial primary key,
+	id_empresa int,
+	ds_produto varchar(255) not null,
+	vl_valor decimal(10,2) not null,
+	img_imagem bytea
+);
+
+create table contatos(
+	id_contato serial primary key,
+	id_empresa int,
+	tp_contato int not null,
+	ds_contato varchar(255) not null unique
+);
+
+create table noticias(
+	id_noticia serial primary key,
+	id_empresa int,
+	ds_titulo varchar(255) not null,
+	dt_publicacao timestamp not null,
+	ds_noticia varchar(32000) not null,
+	img_imagem bytea
+);
+
+--para criar as FKs das tabelas
+--alter table noticias add constraint fk_empresa foreign key(id_empresa) references empresas(id_empresa);
